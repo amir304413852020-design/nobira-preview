@@ -1,0 +1,863 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#32106d">
+<meta name="description" content="نوبیرا؛ افزونه نوبت‌دهی و ویزیت آنلاین وردپرس، با امکانات مدیریت بیماران، پنل پزشک و پنل بیمار.">
+<title>نوبیرا | افزونه نوبت‌دهی و ویزیت آنلاین وردپرس</title>
+
+<style>
+:root {
+  --purple: #7025c9;
+  --deep: #32106d;
+  --light: #f7f2ff;
+  --text: #211632;
+  --muted: #746a80;
+  --border: #eee5fa;
+  --white: #fff;
+  --shadow: 0 15px 45px rgba(75,25,130,.10);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: Vazirmatn, IRANSansX, Tahoma, sans-serif;
+  background: #fff;
+  color: var(--text);
+  line-height: 1.9;
+}
+a { text-decoration: none; color: inherit; }
+button { font: inherit; }
+.container { width: min(1160px, 92%); margin: auto; }
+.topbar {
+  background: #32106d;
+  color: #fff;
+  text-align: center;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid #f0eafa;
+}
+.nav {
+  min-height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 25px;
+  font-weight: 900;
+  color: var(--deep);
+}
+.brand-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  background: linear-gradient(145deg,#a64bff,#4c0b9a);
+  color: white;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 18px #762bc955;
+}
+.brand-icon svg { width: 29px; }
+.brand small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-top: -8px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 27px;
+  font-size: 13px;
+  color: #51455e;
+  font-weight: 700;
+}
+.nav-links a:hover { color: var(--purple); }
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 13px;
+  background: linear-gradient(120deg,#923ef0,#5816a6);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 7px 20px #7025c933;
+  transition: .25s;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 12px 25px #7025c944; }
+.btn-outline {
+  background: white;
+  color: var(--purple);
+  border: 1px solid #d9c4f4;
+  box-shadow: none;
+}
+.hero {
+  padding: 85px 0 75px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 85% 20%,#ead8ff 0,transparent 30%),
+    radial-gradient(circle at 10% 90%,#f0e4ff 0,transparent 32%),
+    linear-gradient(140deg,#fff,#faf6ff);
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  align-items: center;
+  gap: 55px;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--purple);
+  background: #f0e4ff;
+  border: 1px solid #e3d0fa;
+  border-radius: 30px;
+  padding: 6px 15px;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: clamp(30px,4.5vw,53px);
+  line-height: 1.55;
+  font-weight: 950;
+  color: #291044;
+  margin-bottom: 18px;
+}
+.hero h1 span { color: var(--purple); }
+.hero p {
+  color: #71657e;
+  font-size: 15px;
+  line-height: 2.2;
+  max-width: 540px;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+.hero-points {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 27px;
+  color: #625671;
+  font-size: 12px;
+}
+.hero-points span { display: flex; align-items: center; gap: 6px; }
+.check { color: #7d30d1; font-weight: 900; }
+
+.dashboard-wrap { position: relative; padding: 20px; }
+.dashboard {
+  background: white;
+  border: 1px solid #e6d9f6;
+  border-radius: 22px;
+  box-shadow: 0 30px 70px #54218b24;
+  overflow: hidden;
+  transform: rotate(-2deg);
+}
+.dash-head {
+  background: linear-gradient(110deg,#4b147f,#842fd0);
+  color: white;
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dash-head strong { font-size: 16px; }
+.dash-head small { opacity: .8; font-size: 10px; }
+.dash-content { padding: 20px; }
+.dash-welcome {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.dash-welcome strong { font-size: 14px; }
+.dash-welcome small { color: var(--muted); font-size: 10px; }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
+}
+.stat {
+  border: 1px solid #eee4f8;
+  border-radius: 13px;
+  padding: 13px 7px;
+  text-align: center;
+  background: #fcfaff;
+}
+.stat .symbol { font-size: 22px; color: var(--purple); }
+.stat strong { display: block; font-size: 21px; color: var(--deep); }
+.stat small { font-size: 10px; color: var(--muted); }
+.dash-section { margin-top: 22px; }
+.dash-section h3 { font-size: 13px; margin-bottom: 12px; }
+.appointment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #eee8f5;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  font-size: 11px;
+}
+.appointment small { color: var(--muted); }
+.status {
+  background: #eee2ff;
+  color: #762bc3;
+  border-radius: 20px;
+  padding: 3px 9px;
+  font-size: 9px;
+}
+.float-card {
+  position: absolute;
+  left: -5px;
+  bottom: 0;
+  background: white;
+  border: 1px solid #eadcf9;
+  border-radius: 17px;
+  padding: 15px 20px;
+  box-shadow: var(--shadow);
+  color: var(--deep);
+  font-size: 12px;
+  font-weight: 800;
+}
+.float-card span { font-size: 22px; margin-left: 8px; }
+
+.section { padding: 85px 0; }
+.section-soft { background: #faf7ff; }
+.section-heading { text-align: center; max-width: 690px; margin: 0 auto 45px; }
+.section-heading span {
+  color: var(--purple);
+  font-size: 12px;
+  font-weight: 900;
+}
+.section-heading h2 {
+  color: #291044;
+  font-size: clamp(24px,3vw,35px);
+  line-height: 1.6;
+  margin: 8px 0 12px;
+}
+.section-heading p { color: var(--muted); font-size: 13px; }
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
+}
+.feature {
+  padding: 28px 25px;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 20px;
+  transition: .25s;
+}
+.feature:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow);
+  border-color: #d5b9f7;
+}
+.feature-icon {
+  width: 57px;
+  height: 57px;
+  display: grid;
+  place-items: center;
+  border-radius: 17px;
+  color: var(--purple);
+  background: #f2e8ff;
+  font-size: 27px;
+  margin-bottom: 18px;
+}
+.feature h3 { font-size: 16px; margin-bottom: 9px; color: #321052; }
+.feature p { color: var(--muted); font-size: 12px; line-height: 2.1; }
+
+.panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+.panel-card {
+  border-radius: 23px;
+  padding: 30px;
+  background: white;
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 35px #4e168b0b;
+}
+.panel-card h3 { font-size: 20px; color: var(--deep); margin: 15px 0 8px; }
+.panel-card p { color: var(--muted); font-size: 13px; }
+.panel-art {
+  min-height: 180px;
+  border-radius: 17px;
+  padding: 18px;
+  background: linear-gradient(140deg,#f3e7ff,#e6d2ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.panel-window {
+  background: white;
+  width: 100%;
+  max-width: 350px;
+  border-radius: 13px;
+  padding: 15px;
+  box-shadow: 0 8px 20px #5e268622;
+}
+.window-top { display: flex; gap: 5px; margin-bottom: 13px; }
+.window-top i { width: 7px; height: 7px; background: #a86aeb; border-radius: 50%; }
+.window-line {
+  height: 9px;
+  background: #eee5f8;
+  border-radius: 8px;
+  margin: 9px 0;
+}
+.window-line.short { width: 55%; }
+.window-boxes { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin-top: 15px; }
+.window-box {
+  height: 48px;
+  border-radius: 8px;
+  background: #f2e7ff;
+  border: 1px solid #e7d5fa;
+}
+.window-box.active { background: #7c2bc6; }
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 22px;
+}
+.step {
+  text-align: center;
+  padding: 25px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+.step-number {
+  width: 47px;
+  height: 47px;
+  margin: 0 auto 15px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: var(--purple);
+  color: white;
+  font-size: 18px;
+  font-weight: 900;
+}
+.step h3 { font-size: 15px; margin-bottom: 8px; }
+.step p { font-size: 12px; color: var(--muted); }
+
+.why {
+  background: linear-gradient(120deg,#36106c,#7627bd);
+  color: white;
+  border-radius: 28px;
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 35px;
+  align-items: center;
+}
+.why h2 { font-size: 29px; margin-bottom: 15px; }
+.why p { color: #e8d8fa; font-size: 13px; }
+.why-list { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+.why-item {
+  padding: 15px;
+  border: 1px solid #ffffff30;
+  border-radius: 13px;
+  background: #ffffff12;
+  font-size: 12px;
+}
+.why-item b { color: #e6c9ff; margin-left: 7px; }
+
+.faq { max-width: 850px; margin: auto; }
+.faq details {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 12px;
+  padding: 17px 20px;
+  background: white;
+}
+.faq summary {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 800;
+  color: #321052;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--purple); font-size: 22px; line-height: 1; }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding-top: 13px; color: var(--muted); font-size: 12px; }
+
+.final-cta {
+  text-align: center;
+  background: linear-gradient(120deg,#f1e5ff,#faf6ff);
+  border: 1px solid #e6d6f7;
+  border-radius: 26px;
+  padding: 55px 25px;
+}
+.final-cta h2 { color: var(--deep); font-size: 28px; margin-bottom: 10px; }
+.final-cta p { color: var(--muted); font-size: 13px; margin-bottom: 23px; }
+
+footer {
+  background: #241039;
+  color: white;
+  padding: 45px 0 20px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 35px;
+  padding-bottom: 35px;
+}
+footer h3 { margin-bottom: 12px; font-size: 17px; }
+footer p, footer a { color: #c9bad9; font-size: 12px; }
+.footer-links { display: grid; gap: 8px; }
+.copyright {
+  border-top: 1px solid #ffffff20;
+  padding-top: 18px;
+  text-align: center;
+  color: #b9a8ca;
+  font-size: 11px;
+}
+
+@media(max-width:900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 35px; }
+  .hero-copy { text-align: center; }
+  .hero-copy p { margin: auto; }
+  .hero-actions, .hero-points { justify-content: center; }
+  .dashboard-wrap { max-width: 600px; width: 100%; margin: auto; }
+  .features { grid-template-columns: repeat(2,1fr); }
+  .why { grid-template-columns: 1fr; }
+}
+@media(max-width:650px) {
+  .nav { min-height: 70px; }
+  .nav-links { display: none; }
+  .brand { font-size: 21px; }
+  .brand-icon { width: 42px; height: 42px; }
+  .nav > .btn { padding: 9px 13px; font-size: 11px; }
+  .hero { padding: 55px 0; }
+  .hero h1 { font-size: 30px; }
+  .hero p { font-size: 13px; }
+  .dashboard-wrap { padding: 8px; }
+  .dash-content { padding: 12px; }
+  .float-card { left: 0; bottom: -22px; }
+  .section { padding: 60px 0; }
+  .features, .panels, .steps { grid-template-columns: 1fr; }
+  .feature { padding: 23px; }
+  .why { padding: 27px 20px; }
+  .why-list { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 25px; }
+  .final-cta h2 { font-size: 22px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  راهکاری برای مدیریت نوبت‌ها و ارتباط آنلاین با بیماران
+</div>
+
+<header>
+  <div class="container nav">
+    <a href="#" class="brand">
+      <span class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="5" width="18" height="16" rx="3"/>
+          <path d="M8 3v5M16 3v5M3 10h18M12 13v6M9 16h6"/>
+        </svg>
+      </span>
+      <span>نوبیرا<small>NOBIRA</small></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#features">امکانات</a>
+      <a href="#panels">پنل‌ها</a>
+      <a href="#process">نحوه عملکرد</a>
+      <a href="#faq">سؤالات متداول</a>
+    </nav>
+
+    <a class="btn" href="https://www.zhaket.com/" target="_blank" rel="noopener">
+      مشاهده در ژاکت ←
+    </a>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="container hero-grid">
+
+    <div class="hero-copy">
+      <span class="eyebrow">✦ افزونه تخصصی وردپرس</span>
+
+      <h1>
+        مدیریت هوشمند نوبت‌ها،
+        <span>ویزیت آنلاین</span>
+        و بیماران
+      </h1>
+
+      <p>
+        نوبیرا راهکاری برای مدیریت نوبت‌دهی، ارتباط آنلاین با بیماران
+        و سامان‌دهی فرایندهای مرتبط با خدمات پزشکی در وب‌سایت وردپرسی شماست.
+      </p>
+
+      <div class="hero-actions">
+        <a href="https://www.zhaket.com/" target="_blank" rel="noopener" class="btn">
+          خرید افزونه از ژاکت
+        </a>
+        <a href="#features" class="btn btn-outline">
+          آشنایی با امکانات
+        </a>
+      </div>
+
+      <div class="hero-points">
+        <span><b class="check">✓</b> رابط کاربری فارسی</span>
+        <span><b class="check">✓</b> پنل پزشک و بیمار</span>
+        <span><b class="check">✓</b> طراحی واکنش‌گرا</span>
+      </div>
+    </div>
+
+    <div class="dashboard-wrap">
+      <div class="dashboard">
+        <div class="dash-head">
+          <strong>نوبیرا | پنل مدیریت</strong>
+          <small>داشبورد مدیریتی</small>
+        </div>
+
+        <div class="dash-content">
+          <div class="dash-welcome">
+            <div>
+              <strong>سلام، به نوبیرا خوش آمدید</strong><br>
+              <small>نمای کلی وضعیت سامانه</small>
+            </div>
+            <span style="font-size:28px">✚</span>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <div class="symbol">▣</div>
+              <strong>۲۴</strong>
+              <small>نوبت‌های امروز</small>
+            </div>
+            <div class="stat">
+              <div class="symbol">♙</div>
+              <strong>۳۲۰</strong>
+              <small>بیماران</small>
+            </div>
+            <div class="stat">
+              <div class="symbol">▣</div>
+              <strong>۱۲</strong>
+              <small>ویزیت آنلاین</small>
+            </div>
+          </div>
+
+          <div class="dash-section">
+            <h3>نوبت‌های اخیر</h3>
+            <div class="appointment">
+              <span>بیمار شماره ۱</span>
+              <small>امروز | ۱۰:۳۰</small>
+              <span class="status">ثبت شده</span>
+            </div>
+            <div class="appointment">
+              <span>بیمار شماره ۲</span>
+              <small>امروز | ۱۲:۰۰</small>
+              <span class="status">در انتظار</span>
+            </div>
+            <div class="appointment">
+              <span>بیمار شماره ۳</span>
+              <small>امروز | ۱۴:۳۰</small>
+              <span class="status">ثبت شده</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="float-card">
+        <span>✓</span> مدیریت منظم نوبت‌ها
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-heading">
+      <span>امکانات نوبیرا</span>
+      <h2>ابزارهای موردنیاز برای مدیریت خدمات پزشکی</h2>
+      <p>
+        بخش‌های مختلف نوبیرا برای سامان‌دهی نوبت‌ها، مدیریت بیماران
+        و فراهم‌کردن امکان ارتباط آنلاین طراحی شده‌اند.
+      </p>
+    </div>
+
+    <div class="features">
+      <article class="feature">
+        <div class="feature-icon">▦</div>
+        <h3>نوبت‌دهی آنلاین</h3>
+        <p>امکان ثبت و مدیریت نوبت‌ها از طریق وب‌سایت و دسترسی آسان بیماران.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon">▣</div>
+        <h3>ویزیت آنلاین</h3>
+        <p>فراهم‌کردن بستر ویزیت آنلاین و ارتباط تصویری با بیماران.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon">♙</div>
+        <h3>مدیریت بیماران</h3>
+        <p>سامان‌دهی اطلاعات و دسترسی‌های مرتبط با بیماران در محیط افزونه.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon">♟</div>
+        <h3>پنل پزشک</h3>
+        <p>محیط اختصاصی برای دسترسی پزشک به بخش‌های مدیریتی مرتبط.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon">♧</div>
+        <h3>پنل بیمار</h3>
+        <p>محیط اختصاصی بیماران برای دسترسی به امکانات مرتبط با نوبت‌ها.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon">▤</div>
+        <h3>رابط فارسی و واکنش‌گرا</h3>
+        <p>طراحی فارسی و راست‌چین با نمایش سازگار در اندازه‌های مختلف صفحه.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section-soft" id="panels">
+  <div class="container">
+    <div class="section-heading">
+      <span>محیط افزونه</span>
+      <h2>پنل‌های اختصاصی نوبیرا</h2>
+      <p>
+        بخش‌های مختلف سامانه با هدف دسترسی منظم‌تر کاربران به امکانات
+        طراحی شده‌اند.
+      </p>
+    </div>
+
+    <div class="panels">
+
+      <article class="panel-card">
+        <div class="panel-art">
+          <div class="panel-window">
+            <div class="window-top"><i></i><i></i><i></i></div>
+            <div class="window-line"></div>
+            <div class="window-line short"></div>
+            <div class="window-boxes">
+              <div class="window-box"></div>
+              <div class="window-box active"></div>
+              <div class="window-box"></div>
+            </div>
+            <div class="window-line"></div>
+            <div class="window-line short"></div>
+          </div>
+        </div>
+        <h3>پنل مدیریت و پزشک</h3>
+        <p>
+          دسترسی به بخش‌های مرتبط با مدیریت نوبت‌ها و فعالیت‌های
+          پزشکی در محیط افزونه.
+        </p>
+      </article>
+
+      <article class="panel-card">
+        <div class="panel-art">
+          <div class="panel-window">
+            <div class="window-top"><i></i><i></i><i></i></div>
+            <div style="display:flex;gap:12px;align-items:center">
+              <div style="width:55px;height:55px;border-radius:50%;background:#e5d1ff"></div>
+              <div style="flex:1">
+                <div class="window-line"></div>
+                <div class="window-line short"></div>
+              </div>
+            </div>
+            <div class="window-boxes">
+              <div class="window-box active"></div>
+              <div class="window-box"></div>
+              <div class="window-box"></div>
+            </div>
+            <div class="window-line"></div>
+            <div class="window-line short"></div>
+          </div>
+        </div>
+        <h3>پنل بیمار</h3>
+        <p>
+          محیطی اختصاصی برای دسترسی بیماران به امکانات و بخش‌های
+          مرتبط با نوبت‌دهی.
+        </p>
+      </article>
+
+    </div>
+    <p style="text-align:center;color:#8b7b99;font-size:11px;margin-top:20px">
+      تصاویر این بخش نمای شماتیک از محیط محصول هستند.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="process">
+  <div class="container">
+    <div class="section-heading">
+      <span>فرایند استفاده</span>
+      <h2>مدیریت خدمات پزشکی در یک مسیر منظم</h2>
+      <p>نمای کلی مراحل استفاده از سامانه نوبیرا</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">۱</div>
+        <h3>راه‌اندازی و تنظیمات</h3>
+        <p>آماده‌سازی افزونه در وب‌سایت وردپرسی و تنظیم بخش‌های موردنیاز.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">۲</div>
+        <h3>ثبت و مدیریت نوبت</h3>
+        <p>دسترسی به بخش نوبت‌دهی و مدیریت درخواست‌های بیماران.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">۳</div>
+        <h3>ارتباط با بیماران</h3>
+        <p>استفاده از امکانات مرتبط با پنل‌ها و ویزیت آنلاین.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-soft">
+  <div class="container">
+    <div class="why">
+      <div>
+        <span style="color:#e5caff;font-size:12px;font-weight:900">چرا نوبیرا؟</span>
+        <h2>مدیریت متمرکز، تجربه کاربری ساده‌تر</h2>
+        <p>
+          نوبیرا با تمرکز بر نیازهای وب‌سایت‌های پزشکی،
+          امکانات نوبت‌دهی، مدیریت بیماران و ویزیت آنلاین را
+          در قالب یک افزونه وردپرسی ارائه می‌کند.
+        </p>
+      </div>
+      <div class="why-list">
+        <div class="why-item"><b>✓</b> رابط کاربری فارسی</div>
+        <div class="why-item"><b>✓</b> سازگار با وردپرس</div>
+        <div class="why-item"><b>✓</b> پنل پزشک و بیمار</div>
+        <div class="why-item"><b>✓</b> طراحی واکنش‌گرا</div>
+        <div class="why-item"><b>✓</b> مدیریت نوبت‌ها</div>
+        <div class="why-item"><b>✓</b> ویزیت آنلاین</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-heading">
+      <span>سؤالات متداول</span>
+      <h2>پاسخ پرسش‌های شما درباره نوبیرا</h2>
+      <p>پاسخ برخی از پرسش‌های رایج درباره افزونه نوبیرا</p>
+    </div>
+
+    <div class="faq">
+      <details>
+        <summary>آیا نوبیرا با وردپرس سازگار است؟</summary>
+        <p>بله، نوبیرا به‌عنوان یک افزونه برای وب‌سایت‌های وردپرسی طراحی شده است.</p>
+      </details>
+
+      <details>
+        <summary>آیا نوبیرا امکان نوبت‌دهی آنلاین دارد؟</summary>
+        <p>بله، یکی از امکانات اصلی نوبیرا، مدیریت و ثبت نوبت‌های آنلاین است.</p>
+      </details>
+
+      <details>
+        <summary>آیا امکان مدیریت بیماران وجود دارد؟</summary>
+        <p>بله، نوبیرا دارای بخش مدیریت بیماران و پنل اختصاصی بیمار است.</p>
+      </details>
+
+      <details>
+        <summary>آیا نوبیرا از ویزیت آنلاین پشتیبانی می‌کند؟</summary>
+        <p>بله، امکان ویزیت آنلاین از قابلیت‌های معرفی‌شده افزونه نوبیرا است.</p>
+      </details>
+
+      <details>
+        <summary>آیا رابط کاربری افزونه فارسی است؟</summary>
+        <p>بله، رابط کاربری نوبیرا فارسی و راست‌چین طراحی شده است.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="section section-soft">
+  <div class="container">
+    <div class="final-cta">
+      <span class="eyebrow">نوبیرا | NOBIRA</span>
+      <h2>مدیریت نوبت‌ها و ویزیت آنلاین را ساده‌تر کنید</h2>
+      <p>
+        برای آشنایی بیشتر با محصول و مشاهده اطلاعات خرید،
+        به صفحه ژاکت مراجعه کنید.
+      </p>
+      <a class="btn" href="https://www.zhaket.com/" target="_blank" rel="noopener">
+        مشاهده و خرید از ژاکت ←
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h3>نوبیرا | NOBIRA</h3>
+        <p>
+          افزونه نوبت‌دهی و ویزیت آنلاین وردپرس،
+          راهکاری برای مدیریت نوبت‌ها و ارتباط با بیماران.
+        </p>
+      </div>
+      <div>
+        <h3>دسترسی سریع</h3>
+        <div class="footer-links">
+          <a href="#features">امکانات افزونه</a>
+          <a href="#panels">پنل‌های نوبیرا</a>
+          <a href="#process">نحوه عملکرد</a>
+          <a href="#faq">سؤالات متداول</a>
+        </div>
+      </div>
+      <div>
+        <h3>خرید و اطلاعات محصول</h3>
+        <div class="footer-links">
+          <a href="https://www.zhaket.com/" target="_blank" rel="noopener">مشاهده ژاکت</a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      تمامی حقوق این صفحه متعلق به محصول نوبیرا است.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
